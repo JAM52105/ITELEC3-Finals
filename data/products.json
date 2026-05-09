@@ -1,0 +1,138 @@
+[
+  {
+    "id": 1,
+    "name": "Second-hand Laptop",
+    "price": 15000,
+    "category": "Electronics",
+    "description": "Good condition, 8GB RAM",
+    "seller": "Juan Dela Cruz"
+  },
+  {
+    "id": 2,
+    "name": "Used Textbook",
+    "price": 500,
+    "category": "Books",
+    "description": "Mathematics book, slightly worn",
+    "seller": "Maria Santos"
+  },
+  {
+    "id": 3,
+    "name": "Vintage Watch",
+    "price": 2000,
+    "category": "Accessories",
+    "description": "Classic design, working condition",
+    "seller": "Pedro Reyes"
+  },
+  {
+    "id": 4,
+    "name": "Mountain Bike",
+    "price": 8500,
+    "category": "Sports",
+    "description": "2019 model, excellent condition, rarely used",
+    "seller": "Ana Rodriguez"
+  },
+  {
+    "id": 5,
+    "name": "Wireless Headphones",
+    "price": 2500,
+    "category": "Electronics",
+    "description": "Noise-cancelling, 30-hour battery life",
+    "seller": "Carlos Mendez"
+  },
+  {
+    "id": 6,
+    "name": "Fiction Novel Bundle",
+    "price": 800,
+    "category": "Books",
+    "description": "5 popular novels, perfect condition",
+    "seller": "Rosa Martinez"
+  },
+  {
+    "id": 7,
+    "name": "Designer Handbag",
+    "price": 3500,
+    "category": "Fashion",
+    "description": "Authentic leather, gently used",
+    "seller": "Sofia Garcia"
+  },
+  {
+    "id": 8,
+    "name": "Coffee Machine",
+    "price": 2200,
+    "category": "Home Appliances",
+    "description": "Espresso maker, fully functional",
+    "seller": "Miguel Santos"
+  },
+  {
+    "id": 9,
+    "name": "Skateboard",
+    "price": 1200,
+    "category": "Sports",
+    "description": "Professional grade, well-maintained",
+    "seller": "Diego Torres"
+  },
+  {
+    "id": 10,
+    "name": "Smartphone",
+    "price": 12000,
+    "category": "Electronics",
+    "description": "Like new, screen protector included, box and accessories",
+    "seller": "Luna Fernandez"
+  },
+  {
+    "id": 11,
+    "name": "Vintage Camera",
+    "price": 3000,
+    "category": "Photography",
+    "description": "35mm film camera, collector's item",
+    "seller": "Oscar Reyes"
+  },
+  {
+    "id": 12,
+    "name": "Exercise Yoga Mat Set",
+    "price": 890,
+    "category": "Sports",
+    "description": "Non-slip, with carrying strap and blocks",
+    "seller": "Isabella Morales"
+  },
+  {
+    "id": 13,
+    "name": "Programming Books Collection",
+    "price": 1500,
+    "category": "Books",
+    "description": "JavaScript, Python, and Web Development books",
+    "seller": "Marco Alvarez"
+  },
+  {
+    "id": 14,
+    "name": "iphone case",
+    "price": "5000",
+    "category": "Accessories",
+    "description": "bago bago",
+    "seller": "Ude"
+  },
+  {
+    "id": 15,
+    "name": "case",
+    "price": "500",
+    "category": "Accessories",
+    "description": "new",
+    "seller": "lance"
+  },
+  {
+    "id": 16,
+    "name": "Laptop Charger",
+    "price": 1000,
+    "category": "Electronics",
+    "description": "Good condition, Fast Charging",
+    "seller": "Ude"
+  },
+  {
+    "id": 17,
+    "name": "Laptop Samsung Charger",
+    "price": 2000,
+    "category": "Electronics",
+    "description": "Good condition, Fast Charging, brand new",
+    "seller": "Fonsi"
+  }
+]

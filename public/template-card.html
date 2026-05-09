@@ -1,0 +1,156 @@
+<div class="product-card">
+  <div class="card-header">
+    <h2>{%PRODUCTNAME%}</h2>
+  </div>
+  <div class="card-body">
+    <p class="price">₱{%PRICE%}</p>
+    <p class="category">{%CATEGORY%}</p>
+  </div>
+  <div class="card-footer">
+    <a href="/item?id={%ID%}" class="btn-view-details">View Details</a>
+    <button class="btn-update" onclick="fullUpdateProduct('{%ID%}', '{%PRODUCTNAME%}', '{%PRICE%}', '{%CATEGORY%}', '{%DESCRIPTION%}', '{%SELLER%}')">EDIT</button>
+    <button class="btn-delete" onclick="deleteProduct('{%ID%}')">Delete</button>
+  </div>
+</div>
+
+<script>
+async function fullUpdateProduct(id, currentName, currentPrice, currentCategory, currentDescription, currentSeller) {
+  // Create a professional modal dialog
+  const updateForm = `
+    <div id="updateModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+      <div style="background: white; padding: 40px; border-radius: 15px; max-width: 600px; width: 95%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+        <h3 style="margin: 0 0 25px 0; color: #333; font-size: 24px; text-align: center;">Update Product Details</h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <div style="grid-column: 1 / -1;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 14px;">Product Name:</label>
+            <input type="text" id="updateName" value="${currentName}" style="width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; transition: border-color 0.3s;">
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 14px;">Price (₱):</label>
+            <input type="number" id="updatePrice" value="${currentPrice}" style="width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px;">
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 14px;">Category:</label>
+            <select id="updateCategory" style="width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; background-color: white;">
+              <option value="Electronics" ${currentCategory === 'Electronics' ? 'selected' : ''}>Electronics</option>
+              <option value="Books" ${currentCategory === 'Books' ? 'selected' : ''}>Books</option>
+              <option value="Clothing" ${currentCategory === 'Clothing' ? 'selected' : ''}>Clothing</option>
+              <option value="Sports" ${currentCategory === 'Sports' ? 'selected' : ''}>Sports</option>
+              <option value="Home Appliances" ${currentCategory === 'Home Appliances' ? 'selected' : ''}>Home Appliances</option>
+              <option value="Accessories" ${currentCategory === 'Accessories' ? 'selected' : ''}>Accessories</option>
+              <option value="Fashion" ${currentCategory === 'Fashion' ? 'selected' : ''}>Fashion</option>
+              <option value="Photography" ${currentCategory === 'Photography' ? 'selected' : ''}>Photography</option>
+              <option value="Other" ${currentCategory === 'Other' ? 'selected' : ''}>Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 25px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 14px;">Description:</label>
+          <textarea id="updateDescription" style="width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; height: 100px; resize: vertical; font-family: inherit;">${currentDescription}</textarea>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 14px;">Seller Name:</label>
+          <input type="text" id="updateSeller" value="${currentSeller}" style="width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px;">
+        </div>
+        
+        <div style="display: flex; gap: 15px; justify-content: center;">
+          <button onclick="saveProductUpdate('${id}')" style="flex: 1; max-width: 200px; padding: 15px 30px; background: linear-gradient(45deg, #28a745, #20c997); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: transform 0.2s;">Save Changes</button>
+          <button onclick="cancelUpdate()" style="flex: 1; max-width: 200px; padding: 15px 30px; background: linear-gradient(45deg, #6c757d, #495057); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: transform 0.2s;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Add form to page
+  const formDiv = document.createElement('div');
+  formDiv.innerHTML = updateForm;
+  formDiv.id = 'updateModalContainer';
+  document.body.appendChild(formDiv);
+  
+  // Add hover effects
+  setTimeout(() => {
+    const saveBtn = document.querySelector('button[onclick*="saveProductUpdate"]');
+    const cancelBtn = document.querySelector('button[onclick*="cancelUpdate"]');
+    if (saveBtn) {
+      saveBtn.addEventListener('mouseenter', () => saveBtn.style.transform = 'translateY(-2px)');
+      saveBtn.addEventListener('mouseleave', () => saveBtn.style.transform = 'translateY(0)');
+    }
+    if (cancelBtn) {
+      cancelBtn.addEventListener('mouseenter', () => cancelBtn.style.transform = 'translateY(-2px)');
+      cancelBtn.addEventListener('mouseleave', () => cancelBtn.style.transform = 'translateY(0)');
+    }
+  }, 100);
+}
+
+async function saveProductUpdate(id) {
+  const name = document.getElementById('updateName').value;
+  const price = parseFloat(document.getElementById('updatePrice').value);
+  const category = document.getElementById('updateCategory').value;
+  const description = document.getElementById('updateDescription').value;
+  const seller = document.getElementById('updateSeller').value;
+  
+  if (!name || !price || !category || !seller) {
+    alert('Please fill in all required fields');
+    return;
+  }
+  
+  try {
+    const response = await fetch(`/api/v1/products/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        name,
+        price,
+        category,
+        description,
+        seller
+      })
+    });
+    
+    if (response.ok) {
+      alert('Product updated successfully!');
+      cancelUpdate();
+      location.reload();
+    } else {
+      alert('Error updating product');
+    }
+  } catch (error) {
+    alert('Error updating product: ' + error.message);
+  }
+}
+
+function cancelUpdate() {
+  const modal = document.getElementById('updateModal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+async function deleteProduct(id) {
+  if (confirm('Are you sure you want to delete this product?')) {
+    try {
+      const response = await fetch(`/api/v1/products/${id}`, {
+        method: 'DELETE'
+      });
+      
+      if (response.ok) {
+        alert('Product deleted successfully!');
+        location.reload();
+      } else {
+        const errorData = await response.json();
+        alert('Error deleting product: ' + (errorData.message || 'Unknown error'));
+      }
+    } catch (error) {
+      alert('Error deleting product: ' + error.message);
+    }
+  }
+}
+</script>

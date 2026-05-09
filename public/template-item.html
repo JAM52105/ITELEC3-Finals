@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{%PRODUCTNAME%} - Local Marketplace</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .product-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    .edit-form {
+      display: none;
+      margin-top: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #333;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn-save {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-edit {
+      background-color: #ffc107;
+      color: black;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="nav">
+      <div class="logo">Local Marketplace</div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/api">API</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="product-detail">
+      <div id="viewMode">
+        <h1>{%PRODUCTNAME%}</h1>
+        <p><strong>Price:</strong> ₱{%PRICE%}</p>
+        <p><strong>Category:</strong> {%CATEGORY%}</p>
+        <p><strong>Description:</strong> {%DESCRIPTION%}</p>
+        <p><strong>Seller:</strong> {%SELLER%}</p>
+        <div style="margin-top: 30px; text-align: center;">
+          <a href="/item?id={%ID%}&format=json" style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 12px 24px; text-decoration: none; border-radius: 25px; font-weight: 500; transition: all 0.3s ease;">View API Data</a>
+          <button class="btn-edit" onclick="showEditForm()">Update Product</button>
+          <button class="btn-delete" onclick="deleteProduct('{%ID%}')">Delete Product</button>
+        </div>
+      </div>
+
+      <div id="editForm" class="edit-form">
+        <h2>Update Product</h2>
+        <form id="updateProductForm">
+          <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" value="{%PRODUCTNAME%}" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="price">Price (₱):</label>
+            <input type="number" id="price" name="price" value="{%PRICE%}" required min="0" step="0.01">
+          </div>
+          
+          <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+              <option value="Electronics" {%CATEGORY%=="Electronics" ? "selected" : ""}>Electronics</option>
+              <option value="Books" {%CATEGORY%=="Books" ? "selected" : ""}>Books</option>
+              <option value="Clothing" {%CATEGORY%=="Clothing" ? "selected" : ""}>Clothing</option>
+              <option value="Sports" {%CATEGORY%=="Sports" ? "selected" : ""}>Sports</option>
+              <option value="Home Appliances" {%CATEGORY%=="Home Appliances" ? "selected" : ""}>Home Appliances</option>
+              <option value="Accessories" {%CATEGORY%=="Accessories" ? "selected" : ""}>Accessories</option>
+              <option value="Fashion" {%CATEGORY%=="Fashion" ? "selected" : ""}>Fashion</option>
+              <option value="Photography" {%CATEGORY%=="Photography" ? "selected" : ""}>Photography</option>
+              <option value="Other" {%CATEGORY%=="Other" ? "selected" : ""}>Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description">{%DESCRIPTION%}</textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="seller">Seller Name:</label>
+            <input type="text" id="seller" name="seller" value="{%SELLER%}" required>
+          </div>
+          
+          <div class="button-group">
+            <button type="submit" class="btn-save">Save Changes</button>
+            <button type="button" class="btn-cancel" onclick="hideEditForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+      
+      <a href="/overview" class="back-link">Back to Products</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Local Marketplace. Built with Node.js & Express.</p>
+  </footer>
+
+  <script>
+    function showEditForm() {
+      document.getElementById('viewMode').style.display = 'none';
+      document.getElementById('editForm').style.display = 'block';
+    }
+    
+    function hideEditForm() {
+      document.getElementById('viewMode').style.display = 'block';
+      document.getElementById('editForm').style.display = 'none';
+    }
+    
+    // Handle form submission
+    document.getElementById('updateProductForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      const productId = '{%ID%}';
+      
+      try {
+        const response = await fetch(`/api/v1/products/${productId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          alert('Product updated successfully!');
+          location.reload(); // Reload to show updated data
+        } else {
+          alert('Error updating product');
+        }
+      } catch (error) {
+        alert('Error updating product');
+      }
+    });
+    
+    async function deleteProduct(id) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        try {
+          const response = await fetch(`/api/v1/products/${id}`, {
+            method: 'DELETE'
+          });
+          
+          if (response.ok) {
+            alert('Product deleted successfully!');
+            window.location.href = '/overview';
+          } else {
+            alert('Error deleting product');
+          }
+        } catch (error) {
+          alert('Error deleting product');
+        }
+      }
+    }
+  </script>
+</body>
+</html>
